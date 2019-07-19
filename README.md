@@ -8,6 +8,13 @@ but you do not want to flood the polled service on successive requests.
 # Synopsis
 
 ```
+import (
+	"context"
+	"time"
+
+	"github.com/rhomel/backoff"
+)
+
 func main() {
 	bo := backoff.NewBackoff(backoff.DefaultBinaryExponential())
 
@@ -81,7 +88,7 @@ produces a backoff series:
 1s, 3s, 9s, 27s, 30s, 30s, ...
 ```
 
-# If you fail, never give up... (infinite tries)
+# Even if you fail, don't give up... (infinite tries)
 
 You can configure `Try` to try forever:
 
@@ -91,8 +98,8 @@ err := bo.Try(ctx, backoff.InfiniteTries, func(ctx context.Context) bool {
 })
 ```
 
-This has the obvious caveat that if your `Completable` func never returns
-`true` then this will try forever.
+Obviously if your `Completable` func never returns `true` then this will try
+forever.
 
 # Caution
 
