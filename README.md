@@ -88,6 +88,34 @@ produces a backoff series:
 1s, 3s, 9s, 27s, 30s, 30s, ...
 ```
 
+# Custom Interval Implementations
+
+You can also provide your own backoff interval implementation by satisfying
+the `Intervals` interface. For example this is a *very* naive custom binary
+exponential implementation to demonstrate:
+
+```
+type Custom struct {}
+
+func (c Custom) Next(i int8, last time.Duration) time.Duration {
+	if last == 0 {
+		return time.Second
+	}
+	return last * 2
+	// warning: chance the return can overflow
+}
+
+// use the custom interval later
+func main() {
+	bo := backoff.NewBackoff(Custom{})
+}
+```
+
+The `Backoff.Try` method will call your `Next` method starting with `i=0` and
+`last=0` on the first iteration. `i` will continue to increment by one up to
+`math.MaxInt8`. So it is safe to assume `i` will be in the range `0` to
+`math.MaxInt8`.
+
 # Even if you fail, don't give up... (infinite tries)
 
 You can configure `Try` to try forever:
