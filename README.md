@@ -22,15 +22,15 @@ func main() {
 	defer cancel()
 
 	err = bo.Try(ctx, 5, func(ctx context.Context) bool {
-        APIErr := api.CallThatCanIntermittentlyFail(ctx)
-        return APIErr == nil // return true to report success
+		APIErr := api.CallThatCanIntermittentlyFail(ctx)
+		return APIErr == nil // return true to report success
 	})
 
-    if err != nil {
-        // all requests failed or context timed out
-    }
+	if err != nil {
+		// all requests failed or context timed out
+	}
 
-    // success!
+	// success!
 }
 ```
 
@@ -62,7 +62,7 @@ backoff intervals.
 ```
 interval, err := DefaultBinaryExponentialJitter()
 if err != nil {
-    // error likely due to crypto/rand io error
+	// error likely due to crypto/rand io error
 }
 bo := backoff.NewBackoff(interval)
 ```
@@ -74,10 +74,10 @@ application:
 
 ```
 e := Exponential{
-    Base:    3 * time.Second,
-    Unit:    time.Second,
-    Initial: 1 * time.Second,
-    Max:     30 * time.Second,
+	Base:    3 * time.Second,
+	Unit:    time.Second,
+	Initial: 1 * time.Second,
+	Max:     30 * time.Second,
 }
 bo := backoff.NewBackoff(e)
 ```
@@ -94,7 +94,7 @@ You can configure `Try` to try forever:
 
 ```
 err := bo.Try(ctx, backoff.InfiniteTries, func(ctx context.Context) bool {
-    // your code
+	// your code
 })
 ```
 
