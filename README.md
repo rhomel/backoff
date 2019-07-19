@@ -37,7 +37,7 @@ func main() {
 In this case, we assume that `api.CallThatCanIntermittentlyFail` will
 correctly abort when `ctx.Done()` channel is closed.
 
-See `example/example.go` for a full working example.
+See a [working example](example/example.go) for more.
 
 # Default Binary Exponential
 
